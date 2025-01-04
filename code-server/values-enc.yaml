@@ -1,0 +1,52 @@
+persistence:
+    config:
+        enabled: true
+        # emptyDir: true
+        mountPath: /config
+        storageClass: nfs-client
+        accessMode: ReadWriteMany
+env:
+    TZ: UTC
+    #sops:encrypted
+    PASSWORD: ENC[AES256_GCM,data:RZIAE91TIvGt0w==,iv:a/W0Cd+jaoptn/HoOp1qS59z+e4EBk829rK4W2dFJ2c=,tag:VhRt3uD4mIKQJ26HZ3d8iA==,type:str]
+    #sops:encrypted
+    SUDO_PASSWORD: ENC[AES256_GCM,data:POMen8ax6UuZzg==,iv:IGGg85YGiinKeyejgmDVyrimN/vwFPLPeegqDZR1sTM=,tag:nDXGvNOYhkrBtC9AcRHywg==,type:str]
+image:
+    tag: latest
+    #pullPolicy: IfNotPresent
+    pullPolicy: Always
+ingress:
+    enabled: true
+    annotations: {}
+    labels: {}
+    hosts:
+        - host: code-server.p.zacharie.org
+          paths:
+            - path: /
+              pathType: Prefix
+    tls:
+        - secretName: wildcard-zacharie-org-certificate-secret
+          hosts:
+            - code-server.p.zacharie.org
+nodeSelector:
+    proxmox: aquabot
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1y56t8sfllq04z849cfk45r56jxa8yhcfarev62z73zz29d2m2y2q4sj035
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBva0N3citnNnU1ajVuYUdO
+            YS80YXhlcEtWQ3FsaE1lUnZHZkl2WWlEaEZRCkMyR1FCbnlSWjBsVGsxenBmZ2gz
+            QThkVmwwQ1grZmlxaXJQbnJyNWRWR28KLS0tIG9hc1JONHBpQy9UUTZSR1hrZnFD
+            MUhDU3ZueEdtQUI2N1VOVHNDSFN5NW8K+axF1ufACCS+YPG1jMv7aUPC9PPYdRpO
+            4CLCYZilLmqO/KC2K1D2PehoGS1/qJmumWhxnHaydh6mCyaKXq9aBg==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-01-04T17:05:01Z"
+    mac: ENC[AES256_GCM,data:axkREGArvicInBCc/gG5zyqr+YF5eeHkMQCvSR5sHgqmY4eF4gUrOABHfCwxZvCeWmchivH1Bnz2hYCrwO74Lp8XY+0HQO2UO6nnhHkFl5M5gJbzftW8DsOJImuMjDbfgWlVvnxrS+I92JV3MxiVMM6wi620I+YsuW6EjHwK3i4=,iv:7EcQ8iTgSD1lpvuct1ZKSdBHo0iACHxBe7EVlvkr5sg=,tag:KZRy0bCJrLN1gFaBvIHxKw==,type:str]
+    pgp: []
+    encrypted_regex: PASSWORD|SUDO_PASSWORD
+    version: 3.9.2
